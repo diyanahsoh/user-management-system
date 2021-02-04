@@ -1,4 +1,4 @@
-# ums-two
+# ums
 
 ## Project setup
 ```
