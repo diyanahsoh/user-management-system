@@ -1,36 +1,29 @@
 <template>
   <!-- <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Home/>
   </div> -->
   <b-container id="app" fluid>
     <b-row class="text-center">
-      <b-col class="green"></b-col>
+      <b-col class="blue"></b-col>
       <b-col class="col" cols="8">
         <h1>User Management System</h1>
-        <b-table
-          :items="items"
-          :fields="fields"
-          striped
-          hover
-          responsive
-          sticky-header
-          primary-key="id"
-          :tbody-transition-props="transProps"
-        ></b-table>
+        <p>This is a User Management System that contain records of user data - ID, First Name, Last Name, Email and Date of Birth (DOB).
+          Users can Add a new user using the 'Add New User' button, Edit current users' records, and Delete a user record from the system.</p>
+        <Home/>
       </b-col>
-      <b-col class="green"></b-col>
+      <b-col class="blue"></b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import Home from './components/Home.vue'
 
 export default {
   name: 'App',
   components: {
-    // HelloWorld
+    Home
   },
   data () {
     return {
@@ -38,18 +31,15 @@ export default {
         // Transition name
         name: 'flip-list'
       },
-      items: [
-        { id: 2, firstname: 'Two', lastname: 'Moose', email: 'Moose@gmail.com', dob: 1595493789 },
-        { id: 1, firstname: 'Three', lastname: 'Dog', email: 'Dog@gmail.com', dob: 1595493789 },
-        { id: 3, firstname: 'Four', lastname: 'Cat', email: 'Cat@gmail.com', dob: 1595493789 },
-        { id: 4, firstname: 'One', lastname: 'Mouse', email: 'Mouse@gmail.com', dob: 1595493789 }
-      ],
+      items: [],
       fields: [
         { key: 'id', sortable: true },
-        { key: 'firstname', sortable: true },
-        { key: 'lastname', sortable: true },
+        { key: 'firstName', sortable: true },
+        { key: 'lastName', sortable: true },
         { key: 'email', sortable: false },
-        { key: 'dob', sortable: false }
+        { key: 'dob', sortable: false },
+        { key: 'Edit', sortable: false },
+        { key: 'Delete', sortable: false }
       ]
     }
   }
@@ -69,13 +59,26 @@ export default {
     .col {
       // border: 3px solid #239B4D;
       padding: 20px;
+      .addbtn {
+        float: left;
+        font-size: 20px;
+        background-color: #006bbb;
+      }
+      .addbtn:hover {
+        background-color: #30a0e0;
+      }
+      p {
+        padding: 20px;
+        margin: 0%;
+      }
     }
-  }
-  .green {
-    background-color: #0C351A;
+    .blue {
+      background-color: #006bbb;
+    }
   }
   h1, h2, h3 {
     font-weight: bold;
+    padding-top: 20px;
   }
   .btn:active,
   .btn.active,
@@ -93,6 +96,15 @@ table {
     transition: transform 1s;
   }
 }
+.table-striped tbody {
+  tr:nth-of-type(odd) {
+    background-color: #006bbb;
+    color: white;
+  }
+  tr:nth-of-type(odd):hover {
+    background-color: #30a0e0;
+  }
+}
 /* Works on Chrome/Edge/Safari */
 *::-webkit-scrollbar {
   width: 13px;
@@ -101,7 +113,7 @@ table {
   background: white;
 }
 *::-webkit-scrollbar-thumb {
-  background-color:  #239B4D;
+  background-color:  #30a0e0;
   border-radius: 50px;
   border: 2px solid white;
 }
