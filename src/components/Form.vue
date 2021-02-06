@@ -124,11 +124,13 @@ form {
 label {
   padding-left: 10px !important;
 }
-.btn-danger {
-  font-size: 20px;
-}
-.btn-success {
-  font-size: 20px;
-  margin-right: 20px;
+#user-form {
+  .btn-danger {
+    font-size: 20px;
+  }
+  .btn-success {
+    font-size: 20px;
+    margin-right: 20px;
+  }
 }
 </style>
