@@ -1,33 +1,42 @@
 <template>
-  <div id="userForm">
-    <b-alert :show="dismissCountDown" dismissible variant="warning" @dismissed="dismissCountDown=0"
-      @dismiss-count-down="countDownChanged">
-      <p>You have updated a User's information.</p>
-    </b-alert>
-    <h2 v-if="state">Edit Current User</h2>
-    <h2 v-else>Add New User</h2>
-    <b-form @submit="onSubmit">
-      <b-form-group id="firstName" label="First Name:" label-for="input-2">
-        <b-form-input id="input-2" v-model="form.firstName" placeholder="Enter first name" required></b-form-input>
-      </b-form-group>
+  <transition appear name="slide-fade" mode="out-in">
+    <div id="userForm">
+      <!-- Header -->
+      <h2 v-if="state">Edit A Current User</h2>
+      <h2 v-else>Add A New User</h2>
+      <!-- Input Form -->
+      <b-row style="height: auto">
+        <b-col></b-col>
+        <b-col cols="8">
+          <b-form @submit="onSubmit" @reset="onReset">
+            <b-form-group id="firstName" label="First Name:" label-for="input-2">
+              <b-form-input id="input-2" v-model="form.firstName" placeholder="Enter first name" required>
+              </b-form-input>
+            </b-form-group>
 
-      <b-form-group id="lastName" label="Last Name:" label-for="input-3">
-        <b-form-input id="input-3" v-model="form.lastName" placeholder="Enter last name" required></b-form-input>
-      </b-form-group>
+            <b-form-group id="lastName" label="Last Name:" label-for="input-3">
+              <b-form-input id="input-3" v-model="form.lastName" placeholder="Enter last name" required></b-form-input>
+            </b-form-group>
 
-      <b-form-group id="email" label="Email address:" label-for="input-1"
-        description="We'll never share your email with anyone else.">
-        <b-form-input id="input-1" v-model="form.email" type="email" placeholder="Enter email" required></b-form-input>
-      </b-form-group>
+            <b-form-group id="email" label="Email address:" label-for="input-1"
+              description="We'll never share your email with anyone else.">
+              <b-form-input id="input-1" v-model="form.email" type="email" placeholder="Enter email" required>
+              </b-form-input>
+            </b-form-group>
 
-      <b-form-group id="dob" label="Date of Birth:" label-for="input-4">
-        <b-form-input id="input-4" v-model="form.dob" placeholder="Enter Date of Birth" required></b-form-input>
-      </b-form-group>
-
-      <b-button type="submit" pill variant="success">Submit</b-button>
-      <b-button type="cancel" pill variant="danger" @click="onCancel()">Cancel</b-button>
-    </b-form>
-  </div>
+            <b-form-group id="dob" label="Date of Birth:" label-for="input-4">
+              <b-form-input id="input-4" v-model="form.dob" placeholder="Enter Date of Birth" required></b-form-input>
+            </b-form-group>
+            <!-- Form Buttons -->
+            <b-button type="submit" pill variant="success">Submit</b-button>
+            <b-button type="reset" pill variant="warning">Reset</b-button>
+            <b-button type="cancel" pill variant="danger" @click="onCancel()">Cancel</b-button>
+          </b-form>
+        </b-col>
+        <b-col></b-col>
+      </b-row>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -44,13 +53,11 @@ export default {
         lastName: '',
         email: '',
         dob: 0
-      },
-      dismissSecs: 10,
-      dismissCountDown: 0,
-      showDismissibleAlert: false
+      }
     }
   },
   created () {
+    // Checks if Edit button was clicked, set form input fields to clicked user's information
     if (this.state) {
       this.form.firstName = this.record.firstName
       this.form.lastName = this.record.lastName
@@ -68,6 +75,7 @@ export default {
         email: this.form.email,
         dob: this.form.dob
       }
+      // Checks state that indicates True for editing current user information, False for adding a new user
       if (this.state) {
         this.axios.patch(url + this.record.id, item).then((response) => {
           if (response.status === 200) {
@@ -95,22 +103,11 @@ export default {
     },
     onReset (event) {
       event.preventDefault()
-      // cancel our form values
+      // Resets/clear form values
+      this.form.firstName = ''
+      this.form.lastName = ''
       this.form.email = ''
-      this.form.name = ''
-      this.form.food = null
-      this.form.checked = []
-      // Trick to cancel/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
-    },
-    countDownChanged (dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert () {
-      this.dismissCountDown = this.dismissSecs
+      this.form.dob = 0
     }
   }
 }
@@ -124,11 +121,11 @@ form {
 label {
   padding-left: 10px !important;
 }
-#user-form {
+#userForm {
   .btn-danger {
-    font-size: 20px;
+    float: right;
   }
-  .btn-success {
+  .btn {
     font-size: 20px;
     margin-right: 20px;
   }

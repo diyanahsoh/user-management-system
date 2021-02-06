@@ -3,6 +3,7 @@
   <div>
     <b-button pill variant="primary" class="addbtn" @click="addUser()">Add New User</b-button>
     <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="user-table"></b-pagination>
+    <!-- User Information Table -->
     <b-table id="user-table" :items="items" :fields="fields" striped hover responsive sticky-header primary-key="id"
       :per-page="perPage" :current-page="currentPage" :tbody-transition-props="transProps">
       <template #cell(edit)="data">
@@ -62,22 +63,25 @@ export default {
       })
     },
     deleteUser (userID) {
+      // Deletes selected user record from db
       const url = 'http://localhost:3000/users/' + userID
       this.axios.delete(url).then((response) => {
         this.loadData()
       })
     },
     addUser () {
+      // Emits event to interact with Form Component - https://www.smashingmagazine.com/2020/01/data-components-vue-js/
       this.$emit('addUser')
     },
     editUser (record) {
+      // Emits event to interact with Form Component - https://www.smashingmagazine.com/2020/01/data-components-vue-js/
       this.$emit('editUser', record)
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .b-table-sticky-header {
   max-height: 100%;
 }
