@@ -1,9 +1,10 @@
 <template>
-  <div style="height: 85%">
+  <transition appear name="slide-fade" mode="out-in">
+  <div>
     <b-button pill variant="primary" class="addbtn" @click="addUser()">Add New User</b-button>
-    <transition appear name="fade" mode="out-in">
+    <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="user-table"></b-pagination>
     <b-table id="user-table" :items="items" :fields="fields" striped hover responsive sticky-header primary-key="id"
-      :tbody-transition-props="transProps">
+      :per-page="perPage" :current-page="currentPage" :tbody-transition-props="transProps">
       <template #cell(edit)="data">
         <b-button size="sm" @click="editUser(data.item)" variant="success">
           <b-icon icon="pencil-square" aria-hidden="true"></b-icon> Edit Details
@@ -15,8 +16,8 @@
         </b-button>
       </template>
     </b-table>
-    </transition>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -28,6 +29,10 @@ export default {
         // Transition name
         name: 'flip-list'
       },
+      // Pagination variables
+      perPage: 15,
+      currentPage: 1,
+      // Table variables
       items: [],
       fields: [
         { key: 'id', sortable: true },
@@ -43,10 +48,15 @@ export default {
   created () {
     this.loadData()
   },
+  computed: {
+    rows () {
+      return this.items.length
+    }
+  },
   methods: {
     loadData () {
-      var currentPage = '1'
-      const url = 'http://localhost:3000/users?_page=' + currentPage + '&_limit=15' // &_sort=id&_order-desc
+      // Retrieve users data sorted by id in descending order
+      const url = 'http://localhost:3000/users?_sort=id&_order=desc'
       this.axios.get(url).then((response) => {
         this.items = response.data
       })
@@ -74,6 +84,7 @@ export default {
 .addbtn {
   font-size: 20px;
   background-color: #006bbb;
+  float: right;
 }
 .addbtn:hover {
   background-color: #30a0e0;
