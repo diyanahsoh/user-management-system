@@ -1,4 +1,4 @@
-# ums
+# User Management System
 
 ## Project Setup
 ```
@@ -23,7 +23,7 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-## Server Setup
+## JSON Server Setup
 ```
 json-server --watch db.json
 ```
