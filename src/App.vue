@@ -1,8 +1,4 @@
 <template>
-  <!-- <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <Home/>
-  </div> -->
   <b-container id="app" fluid>
     <b-row class="text-center">
       <b-col class="blue"></b-col>
@@ -10,7 +6,8 @@
         <h1>User Management System</h1>
         <p>This is a User Management System that contain records of user data - ID, First Name, Last Name, Email and Date of Birth (DOB).
           Users can Add a new user using the 'Add New User' button, Edit current users' records, and Delete a user record from the system.</p>
-        <Home/>
+        <Form v-if="show" :record="record" :state="edit" @onCancel="show = false"/>
+        <Home v-else @addUser="show = true, edit = false"  @editUser="show = true, edit = true, record = $event"/>
       </b-col>
       <b-col class="blue"></b-col>
     </b-row>
@@ -19,28 +16,20 @@
 
 <script>
 import Home from './components/Home.vue'
+import Form from './components/Form.vue'
 
 export default {
   name: 'App',
   components: {
-    Home
+    Home,
+    Form
   },
   data () {
     return {
-      transProps: {
-        // Transition name
-        name: 'flip-list'
-      },
       items: [],
-      fields: [
-        { key: 'id', sortable: true },
-        { key: 'firstName', sortable: true },
-        { key: 'lastName', sortable: true },
-        { key: 'email', sortable: false },
-        { key: 'dob', sortable: false },
-        { key: 'Edit', sortable: false },
-        { key: 'Delete', sortable: false }
-      ]
+      show: false,
+      edit: false,
+      record: {}
     }
   }
 }
@@ -54,19 +43,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  font-size: 18px;
   .row {
     height: 100vh;
     .col {
       // border: 3px solid #239B4D;
       padding: 20px;
-      .addbtn {
-        float: left;
-        font-size: 20px;
-        background-color: #006bbb;
-      }
-      .addbtn:hover {
-        background-color: #30a0e0;
-      }
       p {
         padding: 20px;
         margin: 0%;
@@ -74,6 +56,21 @@ export default {
     }
     .blue {
       background-color: #006bbb;
+    }
+    table {
+      margin-top: 20px;
+      .flip-list-move {
+        transition: transform 1s;
+      }
+    }
+    .table-striped tbody {
+      tr:nth-of-type(odd) {
+        background-color: #006bbb;
+        color: white;
+      }
+      tr:nth-of-type(odd):hover {
+        background-color: #30a0e0;
+      }
     }
   }
   h1, h2, h3 {
@@ -90,21 +87,6 @@ export default {
     outline: 0 !important;
   }
 }
-table {
-  margin-top: 20px;
-  .flip-list-move {
-    transition: transform 1s;
-  }
-}
-.table-striped tbody {
-  tr:nth-of-type(odd) {
-    background-color: #006bbb;
-    color: white;
-  }
-  tr:nth-of-type(odd):hover {
-    background-color: #30a0e0;
-  }
-}
 /* Works on Chrome/Edge/Safari */
 *::-webkit-scrollbar {
   width: 13px;
@@ -119,7 +101,7 @@ table {
 }
 /* Transition CSS */
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
+  transition: opacity 2s
 }
 .fade-enter, .fade-leave-to {
   opacity: 0.1
