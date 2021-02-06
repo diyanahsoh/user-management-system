@@ -30,11 +30,14 @@
             <!-- Form Buttons -->
             <b-button type="submit" pill variant="success">Submit</b-button>
             <b-button type="reset" pill variant="warning">Reset</b-button>
-            <b-button type="cancel" pill variant="danger" @click="onCancel()">Cancel</b-button>
+            <b-button type="reset" pill variant="danger" @click="onCancel()">Cancel</b-button>
           </b-form>
         </b-col>
         <b-col></b-col>
       </b-row>
+    <b-modal id="modal-center" centered title="BootstrapVue">
+      <p class="my-4">Vertically centered modal!</p>
+    </b-modal>
     </div>
   </transition>
 </template>
@@ -69,28 +72,31 @@ export default {
     onSubmit (event) {
       event.preventDefault()
       const url = 'http://localhost:3000/users/'
+      // Set form input for First & Last Name to lowercase
+      this.form.firstName = this.form.firstName.toLowerCase()
+      this.form.lastName = this.form.lastName.toLowerCase()
+      // Create new item Object that contains form inputs
       const item = {
-        firstName: this.form.firstName,
-        lastName: this.form.lastName,
+        // Convert First & Last Name data into Camel Case
+        firstName: this.form.firstName.charAt(0).toUpperCase() + this.form.firstName.slice(1),
+        lastName: this.form.lastName.charAt(0).toUpperCase() + this.form.lastName.slice(1),
         email: this.form.email,
         dob: this.form.dob
       }
-      // Checks state that indicates True for editing current user information, False for adding a new user
+      // Checks state that indicates True for editing current user information,
       if (this.state) {
         this.axios.patch(url + this.record.id, item).then((response) => {
           if (response.status === 200) {
-            this.showAlert()
-            this.onCancel()
+            this.successMsg()
           }
         }).catch(error => {
           this.error = true
           throw new Error(`API ${error}`)
         })
-      } else {
+      } else { // False for adding a new user
         this.axios.post(url, item).then((response) => {
-          console.log(response.status)
           if (response.status === 201) {
-            this.onCancel()
+            this.successMsg()
           }
         }).catch(error => {
           this.error = true
@@ -108,6 +114,20 @@ export default {
       this.form.lastName = ''
       this.form.email = ''
       this.form.dob = 0
+    },
+    successMsg () {
+      // Customer pop up modal that displays Success Message
+      this.$bvModal.msgBoxOk('User information was submitted successfully.', {
+        title: 'Success',
+        size: 'md',
+        buttonSize: 'md',
+        okVariant: 'success',
+        headerClass: 'border-bottom-0',
+        footerClass: 'border-top-0',
+        centered: true
+      }).then(value => {
+        this.onCancel()
+      })
     }
   }
 }
@@ -129,5 +149,8 @@ label {
     font-size: 20px;
     margin-right: 20px;
   }
+}
+.modal-content {
+  border-radius: 20px;
 }
 </style>

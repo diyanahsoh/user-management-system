@@ -107,6 +107,7 @@ export default {
   border-radius: 50px;
   // border: 1px solid white;
 }
+/* Works on Firefox */
 :root {
   scrollbar-width: thin;
   scrollbar-color: #30a0e0 #C2D2E4;
