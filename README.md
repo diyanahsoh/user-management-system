@@ -27,3 +27,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```
 json-server --watch db.json
 ```
+### How to fix error-nodemon.ps1 cannot be loaded because running script is disabled on this system
+```
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
