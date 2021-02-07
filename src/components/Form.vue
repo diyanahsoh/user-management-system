@@ -9,23 +9,22 @@
         <b-col></b-col>
         <b-col cols="8">
           <b-form @submit="onSubmit" @reset="onReset">
-            <b-form-group id="firstName" label="First Name:" label-for="input-2">
-              <b-form-input id="input-2" v-model="form.firstName" placeholder="Enter first name" required>
+            <b-form-group id="firstName" label="First Name:" label-for="input-2" description="Please enter letters/alphabets only.">
+              <b-form-input id="input-2" v-model="form.firstName" type="name" pattern="[A-Za-z]{1,}" placeholder="Enter first name" required>
               </b-form-input>
             </b-form-group>
 
-            <b-form-group id="lastName" label="Last Name:" label-for="input-3">
-              <b-form-input id="input-3" v-model="form.lastName" placeholder="Enter last name" required></b-form-input>
+            <b-form-group id="lastName" label="Last Name:" label-for="input-3" description="Please enter letters/alphabets only.">
+              <b-form-input id="input-3" v-model="form.lastName" type="name" pattern="[A-Za-z]{1,}" placeholder="Enter last name" required></b-form-input>
             </b-form-group>
 
-            <b-form-group id="email" label="Email address:" label-for="input-1"
-              description="We'll never share your email with anyone else.">
+            <b-form-group id="email" label="Email address:" label-for="input-1" description="We'll never share your email with anyone else.">
               <b-form-input id="input-1" v-model="form.email" type="email" placeholder="Enter email" required>
               </b-form-input>
             </b-form-group>
 
             <b-form-group id="dob" label="Date of Birth:" label-for="input-4">
-              <b-form-input id="input-4" v-model="form.dob" placeholder="Enter Date of Birth" required></b-form-input>
+              <b-form-input id="input-4" v-model="form.dob" type="number" maxlength="10" placeholder="Enter Date of Birth" required></b-form-input>
             </b-form-group>
             <!-- Form Buttons -->
             <b-button type="submit" pill variant="success">Submit</b-button>
@@ -35,9 +34,6 @@
         </b-col>
         <b-col></b-col>
       </b-row>
-    <b-modal id="modal-center" centered title="BootstrapVue">
-      <p class="my-4">Vertically centered modal!</p>
-    </b-modal>
     </div>
   </transition>
 </template>
